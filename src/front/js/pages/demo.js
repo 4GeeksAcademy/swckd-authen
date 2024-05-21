@@ -5,17 +5,34 @@ import { Context } from "../store/appContext";
 
 export const Demo = () => {
 	const { store, actions } = useContext(Context);
+	const [userInput, setUserInput] = useState([]);
 
+	const handleSubmit = (e) => {
+        e.preventDefault();
+        actions.registro(userInput);
+        console.log(userInput);
+        window.location.href = "/";
+    };
 	return (
-		<form>
-			<div className="mb-3">
-				<label for="exampleInputEmail1" className="form-label">Email address</label>
-				<input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"/>
-				<div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
-			</div>
+		<form onSubmit={(e) => handleSubmit(e)}>
+			<div className="my-3">
+                        <label className="form-label d-flex text-start">
+                            <i className="fas fa-envelope mx-2" style={{ color: "#B197FC", fontSize: 24 }}></i>
+                            Email
+                        </label>
+                        <input
+                            type="email"
+                            className="form-control"
+                            minLength={3}
+                            required
+                            value={userInput.email || ""}
+                            onChange={(e) => setUserInput({ ...userInput, email: e.target.value })}
+                            placeholder="name@example.com"
+                        />
+                    </div>
 			<div className="mb-3">
 				<label for="exampleInputPassword1" className="form-label">Password</label>
-				<input type="password" className="form-control" id="exampleInputPassword1"/>
+				<input type="password" className="form-control" id="exampleInputPassword1" value={userInput.password || ""} onChange={(e) => setUserInput({ ...userInput, password: e.target.value })}placeholder="********"/>
 			</div>
 			<button type="submit" className="btn btn-primary">Submit</button>
 		</form>
