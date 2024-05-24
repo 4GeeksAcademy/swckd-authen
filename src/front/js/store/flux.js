@@ -83,9 +83,19 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const data = await response.json();
 					console.log('Datos guardados correctamente:', data);
 					localStorage.setItem("jwt-token", data.token);
+					console.log(localStorage.getItem("jwt-token"))
 				} catch (error) {
 					console.error('Error:', error);
 				}
+			},
+
+			getToken : () =>{
+				const token = localStorage.getItem('jwt-token');
+				return !!token;
+			},
+
+			logout : ()=>{
+				localStorage.clear()
 			}
 		}
 	};

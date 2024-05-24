@@ -6,6 +6,7 @@ import { BackendURL } from "./component/backendURL";
 import { Home } from "./pages/home";
 import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
+import {Usuario} from "./pages/usuario";
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
@@ -29,6 +30,7 @@ const Layout = () => {
                         <Route element={<Demo />} path="/singup" />
                         <Route element={<Single />} path="/login" />
                         <Route element={<h1>Not found!</h1>} />
+                        <Route element={<Usuario />} path="/private" />
                     </Routes>
                     <Footer />
                 </ScrollToTop>
