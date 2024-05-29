@@ -34,7 +34,8 @@ def add_user():
     if not request_data or 'email' not in request_data or 'password' not in request_data:
         raise APIException('Invalid request body', status_code=400)
 
-    new_user = User(email=request_data['email'], password=request_data['password'])
+    new_user = User(email=request_data['email'])
+    new_user.set_password(request_data['password'])
     db.session.add(new_user)
     db.session.commit()
 
@@ -44,9 +45,11 @@ def add_user():
 def create_token():
     email = request.json.get("email", None)
     password = request.json.get("password", None)
-    user = User.query.filter_by(email=email, password=password).first()
-    if user is None:
-        return jsonify({"msg" : "No existe"}), 401
+    user = User.query.filter_by(email=email).first()
+
+    if user is None or not user.check_password(password):
+        return jsonify({"msg" : "Invalid email or password"}), 401
+
     access_token = create_access_token(identity=user.id)
     return jsonify({"token": access_token, "user_id": user.id})
 
@@ -55,4 +58,4 @@ def create_token():
 def protected():
     current_user_id = get_jwt_identity()
     user = User.filter.get(current_user_id)
-    return jsonify({"id": user.id, "email": user.email}),200
+    return jsonify({"id": user.id, "email": user.email}), 200

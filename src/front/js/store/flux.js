@@ -1,104 +1,108 @@
 const getState = ({ getStore, getActions, setStore }) => {
-	return {
-		store: {
-			message: null,
-			datos: [],
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			]
-		},
-		actions: {
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
-			},
+    return {
+        store: {
+            message: null,
+            datos: [],
+            demo: [
+                {
+                    title: "FIRST",
+                    background: "white",
+                    initial: "white"
+                },
+                {
+                    title: "SECOND",
+                    background: "white",
+                    initial: "white"
+                }
+            ]
+        },
+        actions: {
+            exampleFunction: () => {
+                getActions().changeColor(0, "green");
+            },
 
-			getMessage: async () => {
-				try {
-					const resp = await fetch(process.env.BACKEND_URL + "/api/hello");
-					const data = await resp.json();
-					setStore({ message: data.message });
-					return data;
-				} catch (error) {
-					console.log("Error loading message from backend", error);
-				}
-			},
+            getMessage: async () => {
+                try {
+                    const resp = await fetch(process.env.BACKEND_URL + "/api/hello");
+                    const data = await resp.json();
+                    setStore({ message: data.message });
+                    return data;
+                } catch (error) {
+                    console.log("Error loading message from backend", error);
+                }
+            },
 
-			changeColor: (index, color) => {
-				const store = getStore();
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
-				setStore({ demo: demo });
-			},
+            changeColor: (index, color) => {
+                const store = getStore();
+                const demo = store.demo.map((elm, i) => {
+                    if (i === index) elm.background = color;
+                    return elm;
+                });
+                setStore({ demo: demo });
+            },
 
-			registro: async ({ email, password }) => {
-				try {
-					const response = await fetch('http://127.0.0.1:3001/api/users', {
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json',
-							'accept': 'application/json'
-						},
-						body: JSON.stringify({ 'email': email, 'password': password })
-					});
+            registro: async ({ email, password }) => {
+                try {
+                    const response = await fetch('http://127.0.0.1:3001/api/users', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'accept': 'application/json'
+                        },
+                        body: JSON.stringify({ 'email': email, 'password': password }) // Enviar contraseña en texto plano
+                    });
 
-					if (!response.ok) {
-						console.error('Error al enviar datos');
-						throw new Error('Error al enviar datos');
-					}
+                    if (!response.ok) {
+                        console.error('Error al enviar datos');
+                        throw new Error('Error al enviar datos');
+                    }
 
-					const data = await response.json();
-					console.log('Datos guardados correctamente:', data);
-					setStore({ datos: data.result });
-				} catch (error) {
-					console.error('Error:', error);
-				}
-			},
-			login: async ({ email, password }) => {
-				try {
-					const response = await fetch('http://127.0.0.1:3001/api/login', {
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json',
-							'accept': 'application/json'
-						},
-						body: JSON.stringify({ 'email': email, 'password': password })
-					});
+                    const data = await response.json();
+                    console.log('Datos guardados correctamente:', data);
+                    setStore({ datos: data.result });
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            },
 
-					if (!response.ok) {
-						console.error('Error al enviar datos');
-						throw new Error('Error al enviar datos');
-					}
+            login: async ({ email, password }) => {
+                try {
+                    const response = await fetch('http://127.0.0.1:3001/api/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'accept': 'application/json'
+                        },
+                        body: JSON.stringify({ 'email': email, 'password': password }) // Enviar contraseña en texto plano
+                    });
 
-					const data = await response.json();
-					console.log('Datos guardados correctamente:', data);
-					localStorage.setItem("jwt-token", data.token);
-					console.log(localStorage.getItem("jwt-token"))
-				} catch (error) {
-					console.error('Error:', error);
-				}
-			},
+                    if (!response.ok) {
+                        console.error('Error al enviar datos');
+                        throw new Error('Error al enviar datos');
+                    }
 
-			getToken : () =>{
-				const token = localStorage.getItem('jwt-token');
-				return !!token;
-			},
+                    const data = await response.json();
+                    console.log('Datos guardados correctamente:', data);
+                    localStorage.setItem("jwt-token", data.token);
+                    console.log(localStorage.getItem("jwt-token"));
 
-			logout : ()=>{
-				localStorage.clear()
-			}
-		}
-	};
+                    return true;  
+                } catch (error) {
+                    console.error('Error:', error);
+                    return false;  
+                }
+            },
+
+            getToken: () => {
+                const token = localStorage.getItem('jwt-token');
+                return !!token;
+            },
+
+            logout: () => {
+                localStorage.clear();
+            }
+        }
+    };
 };
 
 export default getState;
