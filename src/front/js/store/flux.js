@@ -58,22 +58,22 @@ const getState = ({ getStore, getActions, setStore }) => {
                     }
 
                     const data = await response.json();
-                    console.log('Datos guardados correctamente:', data);
-                    setStore({ datos: data.result });
+                    console.log(data);
+                    return data;
                 } catch (error) {
                     console.error('Error:', error);
+                    throw error;
                 }
             },
 
-            login: async ({ email, password }) => {
+            forgotPassword: async (email) => {
                 try {
-                    const response = await fetch('http://127.0.0.1:3001/api/login', {
+                    const response = await fetch('http://127.0.0.1:3001/api/forgot-password', {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'application/json',
-                            'accept': 'application/json'
+                            'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({ 'email': email, 'password': password }) // Enviar contraseña en texto plano
+                        body: JSON.stringify({ email })
                     });
 
                     if (!response.ok) {
@@ -82,17 +82,34 @@ const getState = ({ getStore, getActions, setStore }) => {
                     }
 
                     const data = await response.json();
-                    console.log('Datos guardados correctamente:', data);
-                    localStorage.setItem("jwt-token", data.token);
-                    console.log(localStorage.getItem("jwt-token"));
-
-                    return true;  
+                    console.log('Correo de recuperación enviado:', data);
                 } catch (error) {
                     console.error('Error:', error);
-                    return false;  
                 }
             },
 
+            resetPassword: async (password, token) => {
+                try {
+                    const response = await fetch('http://127.0.0.1:3001/api/reset-password/'+ token, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify({ password })
+                    });
+
+                    if (!response.ok) {
+                        console.error('Error al enviar datos');
+                        throw new Error('Error al enviar datos');
+                    }
+
+                    const data = await response.json();
+                    console.log('Contraseña restablecida:', data);
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            },
             getToken: () => {
                 const token = localStorage.getItem('jwt-token');
                 return !!token;
