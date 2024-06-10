@@ -34,7 +34,7 @@ const Layout = () => {
                         <Route element={<h1>Not found!</h1>} />
                         <Route element={<Usuario />} path="/private" />
                         <Route element={<ForgotPassword />} path="/forgotpassword" />
-                        <Route element={<ResetPassword />} path="/resetpassword/:token" />
+                        <Route element={<ResetPassword />} path="/resetpassword/:user_uuid" />
                     </Routes>
                     <Footer />
                 </ScrollToTop>

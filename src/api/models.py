@@ -9,6 +9,7 @@ class User(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False, default=True)
+    user_uuid= db.Column(db.String(250), nullable=True)
 
     def __repr__(self):
         return f'<User {self.email}>'
@@ -16,7 +17,9 @@ class User(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "email": self.email
+            "email": self.email,
+            "password": self.password,
+            "user_uuid": self.user_uuid
         }
 
     def set_password(self, password):

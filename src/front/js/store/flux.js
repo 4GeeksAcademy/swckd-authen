@@ -40,7 +40,33 @@ const getState = ({ getStore, getActions, setStore }) => {
                 });
                 setStore({ demo: demo });
             },
+            login: async ({ email, password }) => {
+				try {
+					const response = await fetch(process.env.BACKEND_URL + '/api/login', {
 
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+							'accept': 'application/json',
+
+						},
+						body: JSON.stringify({ 'email': email, 'password': password })
+					});
+
+					if (!response.ok) {
+						console.error('Error al enviar datos');
+						throw new Error('Error al enviar datos');
+					}
+
+					const data = await response.json();
+					localStorage.setItem("jwt-token", data.token);
+					setStore({ currentUser: data });
+					return true;
+				} catch (error) {
+					console.error('Error:', error);
+					return false;
+				}
+			},
             registro: async ({ email, password }) => {
                 try {
                     const response = await fetch('http://127.0.0.1:3001/api/users', {
@@ -88,15 +114,15 @@ const getState = ({ getStore, getActions, setStore }) => {
                 }
             },
 
-            resetPassword: async (password, token) => {
+            resetPassword: async (password, user_uuid) => {
                 try {
-                    const response = await fetch('http://127.0.0.1:3001/api/reset-password/'+ token, {
+                    const response = await fetch('http://127.0.0.1:3001/api/reset-password/', {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${token}`
+                            //'Authorization': `Bearer ${token}`
                         },
-                        body: JSON.stringify({ password })
+                        body: JSON.stringify({ password, user_uuid })
                     });
 
                     if (!response.ok) {

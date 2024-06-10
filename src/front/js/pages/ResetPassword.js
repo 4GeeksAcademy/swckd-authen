@@ -4,18 +4,19 @@ import { Context } from "../store/appContext";
 
 export const ResetPassword = () => {
     const [password, setPassword] = useState("");
-    const { token } = useParams();
+    const { user_uuid } = useParams();
     const { actions } = useContext(Context);
-    const navigate = useNavigate();
+    //const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        actions.resetPassword(password, token)
-
-        if (response.ok) {
+        try{
+            await actions.resetPassword(password, user_uuid)
+            console.log(user_uuid)
+            console.log(password, "contraseña")
             alert("Password has been reset");
-            navigate("/login");
-        } else {
+            //navigate("/login");
+        }catch{
             alert("Error resetting password");
         }
     };
