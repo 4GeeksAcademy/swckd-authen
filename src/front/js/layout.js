@@ -6,6 +6,12 @@ import { BackendURL } from "./component/backendURL";
 import { Home } from "./pages/home";
 import { Demo } from "./pages/demo";
 import { Single } from "./pages/single";
+<<<<<<< HEAD
+=======
+import {Usuario} from "./pages/usuario";
+import {ResetPassword} from "./pages/ResetPassword";
+import {ForgotPassword} from "./pages/ForgotPassword";
+>>>>>>> daeec6084f2f76cf862888ab4517a4719b87d2bc
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
@@ -26,9 +32,18 @@ const Layout = () => {
                     <Navbar />
                     <Routes>
                         <Route element={<Home />} path="/" />
+<<<<<<< HEAD
                         <Route element={<Demo />} path="/demo" />
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<h1>Not found!</h1>} />
+=======
+                        <Route element={<Demo />} path="/signup" />
+                        <Route element={<Single />} path="/login" />
+                        <Route element={<h1>Not found!</h1>} />
+                        <Route element={<Usuario />} path="/private" />
+                        <Route element={<ForgotPassword />} path="/forgotpassword" />
+                        <Route element={<ResetPassword />} path="/resetpassword/:user_uuid" />
+>>>>>>> daeec6084f2f76cf862888ab4517a4719b87d2bc
                     </Routes>
                     <Footer />
                 </ScrollToTop>

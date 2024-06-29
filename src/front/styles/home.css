@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*
     home.css: This website contains selectors only used in home.css
 
@@ -5,3 +6,31 @@
     one more css for each page that will contain the selected used 
     on that page only (the ones not reused in other pages).
 */
+=======
+.cool-image-container {
+  margin-top: 50px;
+}
+
+.cool-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 15px;
+}
+
+.botones {
+  margin-top: 20px;
+}
+
+.btn-primary, .btn-secondary {
+  padding: 10px 20px;
+  font-size: 1.2em;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.btn-secondary:hover {
+  background-color: #343a40;
+}
+>>>>>>> daeec6084f2f76cf862888ab4517a4719b87d2bc
